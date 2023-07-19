@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizApp Version 2</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="starting">
+            <h1 class="greetings">Hi, welcome to English Quiz!</h1>
+            <div class="start">Start</div>
+        </div>
+        <!-- When start button is clicked -->
+        <div class="question">
+            <div class="timer">
+                00:00
+            </div>
+            <div class="score-panel">
+                <div class="score-count">
+                    <!-- Left scrore count -->
+                    <div clas="left-count">
+                    <div class="complete">
+                        <span>Complete: </span><span id="percentage"> 0%</span>
+                    </div>
+                    <div class="correct">
+                        <span>Correct: </span><span id="correct"></span>
+                    </div>
+                    </div>
+                    <!-- Right Score Count -->
+                    <div class="right-count">
+                    <div class="total">
+                        <span>Total: </span><span id="number-of-question"> 0</span>
+                    </div>
+                    <div class="wrong">
+                        <span>Wrong: </span><span id="wrong"> 0</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="question-detail">
+                <h1>English Quiz</h1>
+                
+                <div class="text"></div>
+                <ul type="a" class="options"> 
+                </ul>
+
+            </div>
+            <div class="footer">
+                <div class="previous">Previous</div>
+                <div class="show-result">Show Result</div>
+                <div class="next">Next</div>
+            </div>
+        </div>
+
+        <!-- When show result is clicked -->
+        <div class="result-panel">
+            <div class="score">
+                <!-- 0% -->
+            </div>
+            <h1 class="result-smg">Congratulations! </h1>
+            <div class="replay">Replay</div>
+        </div>
+
+    </div>
+</body>
+</html>
