@@ -14,14 +14,21 @@ let wrongQuestions = document.querySelector("#wrong");
 let number_of_question = document.querySelector("#number-of-question");
 let percentage = document.querySelector("#percentage");
 let scoreEl = document.querySelector(".score");
+let sorryElement = document.querySelector(".sorry");
+let try_again = document.querySelector(".try_again");
+let gradeEl = document.querySelector(".grade");
+
 
 let cQuestionIndex = 0;
 let score = 0;
+let grade = 0;
 scoreEl.innerHTML = '0%';
+gradeEl.innerHTML = '0%';
 correct.innerHTML = '0';
 let numWrong = 0;
 let numCorrect = 0;
 let percentComplete = 0;
+let click = 0;
 
 
 
@@ -31,7 +38,7 @@ start_btn.addEventListener("click",()=>{
     starting.style.display= 'none';
     
     function updateTimer(){
-        let secondsRemaining = 3 * 60;
+        let secondsRemaining = 1 * 60;
         let time = setInterval(()=>{
             let minutes = Math.floor(secondsRemaining / 60);
             let seconds = secondsRemaining % 60;
@@ -39,6 +46,10 @@ start_btn.addEventListener("click",()=>{
             timer.innerHTML =`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
             if(secondsRemaining === 0){
                 clearInterval(time);
+                question.style.display = "none";
+                sorryElement.style.display = "block";
+                result_panel.style.display= 'none';
+
             }
             else {
                 secondsRemaining--;
@@ -58,6 +69,12 @@ show_result.addEventListener("click", ()=>{
 replay.addEventListener("click", ()=>{
     starting.style.display= 'block';
     result_panel.style.display= 'none';
+})
+
+try_again.addEventListener("click", ()=>{
+  starting.style.display= 'block';
+  sorryElement.style.display = 'none';
+
 })
 
 const questions = [
@@ -95,7 +112,7 @@ const questions = [
     },
     {
       question:
-        'Choose the correct form of the adjective to complete the sentence: "It was _______ day at the beach.',
+        'Choose the correct form of the adjective to complete the sentence: "It was a _______ day at the beach.',
       options: ["Sunny", "Sunnier", "Sunniest", "Sunnily"],
       answer: 0,
     },
@@ -202,9 +219,13 @@ const questions = [
 function displayQuestion(){
     const question_data = questions[cQuestionIndex];
     Qtext.innerHTML = question_data.question;
+
+    const hasAnswered = typeof questions[cQuestionIndex].userAnswer !== 'undefined';
+
     let opt = "";
 
     for(let i = 0; i<question_data.options.length; i++){
+        const isDisabled = hasAnswered ? 'disabled' : '';
         opt += `<li onclick="checkAnswer(event)">${question_data.options[i]}</li>`
     }
 
@@ -216,25 +237,35 @@ function displayQuestion(){
 displayQuestion();
 
 function checkAnswer(e){
-    let user_answer = e.target.innerHTML;
-    let correctAnswer = questions[cQuestionIndex].options[questions[cQuestionIndex].answer];
+    if (typeof questions[cQuestionIndex].userAnswer === 'undefined') {
+        let user_answer = e.target.innerHTML;
+        let correctAnswer = questions[cQuestionIndex].options[questions[cQuestionIndex].answer];
+
     
     if(user_answer==correctAnswer){
         correct.style.color = "green";
         score += 5;
+        grade += 5;
         numCorrect++;
-        correct.innerHTML = numCorrect;
+        correct.innerHTML  = numCorrect;
         scoreEl.innerHTML = `${score}%`;
-
-    }else if(user_answer != correctAnswer){
+        gradeEl.innerHTML = `${grade}%`;
+    }
+    else if(user_answer != correctAnswer){
         wrongQuestions.style.color = "red";
         numWrong++;
         wrongQuestions.innerHTML = numWrong;
-    } 
+    }
+
+    questions[cQuestionIndex].userAnswer = user_answer;
+  }
 }
 
 localStorage.setItem("scoreEl", scoreEl);
 localStorage.getItem("scoreEl");
+
+localStorage.setItem("gradeEl", gradeEl);
+localStorage.getItem("gradeEl");
 
 
 next.addEventListener("click", () => {

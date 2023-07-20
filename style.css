@@ -34,6 +34,10 @@ body{
     margin-top: 6rem; 
 }
 
+.sorry {
+    display: none;
+}
+
 h1{
     text-align: center;
     margin-bottom: 1.5rem;
@@ -86,6 +90,7 @@ h1{
 }
 
 .replay,
+.try_again,
 .footer>*{
     background-color: white;
     color: #2E475D;
@@ -111,7 +116,7 @@ h1{
     margin: auto;
 }
 
-.replay, .start{
+.replay, .try_again, .start{
     margin: 2rem auto;
     cursor: grab;
 }
