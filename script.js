@@ -38,7 +38,7 @@ start_btn.addEventListener("click",()=>{
     starting.style.display= 'none';
     
     function updateTimer(){
-        let secondsRemaining = 1 * 60;
+        let secondsRemaining = 3 * 60;
         let time = setInterval(()=>{
             let minutes = Math.floor(secondsRemaining / 60);
             let seconds = secondsRemaining % 60;
