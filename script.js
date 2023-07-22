@@ -31,50 +31,78 @@ let percentComplete = 0;
 let click = 0;
 
 
+function restartGame() {
+  updateTimer();
+
+  cQuestionIndex = 0;
+  score = 0;
+  grade = 0;
+  numCorrect = 0;
+  numWrong = 0;
+  percentComplete = 0;
+
+  scoreEl.innerHTML = '0%';
+  gradeEl.innerHTML = '0%';
+  correct.innerHTML = '0';
+  wrongQuestions.innerHTML = '0';
+  timer.innerHTML = '03:00';
+  Qtext.innerHTML = '';
+  options.innerHTML = '';
+  result_panel.style.display = 'none';
+  sorryElement.style.display = 'none';
+  starting.style.display = 'block';
+
+  questions.forEach(question => {
+    question.userAnswer = undefined;
+  });
+
+  displayQuestion();
+}
+
 
 start_btn.addEventListener("click",()=>{
 
-    question.style.display= 'block';
-    starting.style.display= 'none';
-    
-    function updateTimer(){
-        let secondsRemaining = 3 * 60;
-        let time = setInterval(()=>{
-            let minutes = Math.floor(secondsRemaining / 60);
-            let seconds = secondsRemaining % 60;
-    
-            timer.innerHTML =`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-            if(secondsRemaining === 0){
-                clearInterval(time);
-                question.style.display = "none";
-                sorryElement.style.display = "block";
-                result_panel.style.display= 'none';
+  question.style.display= 'block';
+  starting.style.display= 'none';
+  
+  function updateTimer(){
+    let secondsRemaining = 3 * 60;
+    let time = setInterval(()=>{
+      let minutes = Math.floor(secondsRemaining / 60);
+      let seconds = secondsRemaining % 60;
 
-            }
-            else {
-                secondsRemaining--;
-            }
-        }, 1000)
-    }
-    updateTimer()
-
+      timer.innerHTML =`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      if(secondsRemaining === 0){
+        clearInterval(time);
+        question.style.display = "none";
+        sorryElement.style.display = "block";
+        result_panel.style.display= 'none';
+        restartGame();
+      }
+      else {
+        secondsRemaining--;
+      }
+    }, 1000)
+  }
+  updateTimer();
 })
 
 show_result.addEventListener("click", ()=>{
-    question.style.display= 'none';
-    result_panel.style.display= 'block';
+  question.style.display= 'none';
+  result_panel.style.display= 'block';
 })
 
 
 replay.addEventListener("click", ()=>{
-    starting.style.display= 'block';
-    result_panel.style.display= 'none';
+  starting.style.display= 'block';
+  result_panel.style.display= 'none';
+  restartGame();
 })
 
 try_again.addEventListener("click", ()=>{
   starting.style.display= 'block';
   sorryElement.style.display = 'none';
-
+  restartGame();
 })
 
 const questions = [
@@ -225,8 +253,8 @@ function displayQuestion(){
     let opt = "";
 
     for(let i = 0; i<question_data.options.length; i++){
-        const isDisabled = hasAnswered ? 'disabled' : '';
-        opt += `<li onclick="checkAnswer(event)">${question_data.options[i]}</li>`
+      const isDisabled = hasAnswered ? 'disabled' : '';
+      opt += `<li onclick="checkAnswer(event)">${question_data.options[i]}</li>`
     }
 
     options.innerHTML = opt;
@@ -237,25 +265,25 @@ function displayQuestion(){
 displayQuestion();
 
 function checkAnswer(e){
-    if (typeof questions[cQuestionIndex].userAnswer === 'undefined') {
-        let user_answer = e.target.innerHTML;
-        let correctAnswer = questions[cQuestionIndex].options[questions[cQuestionIndex].answer];
+  if (typeof questions[cQuestionIndex].userAnswer === 'undefined') {
+    let user_answer = e.target.innerHTML;
+    let correctAnswer = questions[cQuestionIndex].options[questions[cQuestionIndex].answer];
 
     
-    if(user_answer==correctAnswer){
-        correct.style.color = "green";
-        score += 5;
-        grade += 5;
-        numCorrect++;
-        correct.innerHTML  = numCorrect;
-        scoreEl.innerHTML = `${score}%`;
-        gradeEl.innerHTML = `${grade}%`;
-    }
-    else if(user_answer != correctAnswer){
-        wrongQuestions.style.color = "red";
-        numWrong++;
-        wrongQuestions.innerHTML = numWrong;
-    }
+  if(user_answer==correctAnswer){
+    correct.style.color = "green";
+    score += 5;
+    grade += 5;
+    numCorrect++;
+    correct.innerHTML  = numCorrect;
+    scoreEl.innerHTML = `${score}%`;
+    gradeEl.innerHTML = `${grade}%`;
+  }
+  else if(user_answer != correctAnswer){
+    wrongQuestions.style.color = "red";
+    numWrong++;
+    wrongQuestions.innerHTML = numWrong;
+  }
 
     questions[cQuestionIndex].userAnswer = user_answer;
   }
@@ -296,5 +324,4 @@ function updatePercentComplete() {
 function updateTotalQuestions() {
   number_of_question.innerHTML = questions.length - cQuestionIndex - 1;
 }
-
 
