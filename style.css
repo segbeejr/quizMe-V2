@@ -43,22 +43,15 @@ h1{
     margin-bottom: 1.5rem;
     color: white;
     font-size: 35px;
-
-    /* transform: 1s scale(1.2); */
-    /* transition: 1s scale(1.2); */
 }
 
-/* @keyframes h1 {
-    0% {
-        transform: 1s scale(1);
-    }
-    50% {
-        transform: 1s scale(1.2);
-    }
-    100% {
-        transform: 1s scale(1);
-    }
-} */
+.selected-green {
+    color: green;
+}
+
+.selected-red {
+    color: red;
+}
 
 .question{
     display: none;
