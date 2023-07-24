@@ -14,7 +14,7 @@ let wrongQuestions = document.querySelector("#wrong");
 let number_of_question = document.querySelector("#number-of-question");
 let percentage = document.querySelector("#percentage");
 let scoreEl = document.querySelector(".score");
-let sorryElement = document.querySelector(".sorry");
+let sorryElement = document.getElementsByClassName(".sorry");
 let try_again = document.querySelector(".try_again");
 let gradeEl = document.querySelector(".grade");
 
@@ -222,6 +222,8 @@ const questions = [
     }
 ]
 
+localStorage.setItem("questions", JSON.stringify(questions));
+const storedQuestions = JSON.parse(localStorage.getItem("questions"));
 
 function displayQuestion() {
   const question_data = questions[cQuestionIndex];
@@ -301,14 +303,18 @@ next.addEventListener("click", () => {
   }
 });
 
+
 previous.addEventListener("click", () => {
   if (cQuestionIndex > 0) {
     cQuestionIndex--;
     displayQuestion();
-  } else {
-    cQuestionIndex = questions.length - 1;
-    displayQuestion();
-  }
+  }else {
+  return;
+}
+
+if (cQuestionIndex === 0) {
+  previous.disabled = true;
+}
 });
 
 function updatePercentComplete() {
